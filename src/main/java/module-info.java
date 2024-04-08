@@ -9,4 +9,6 @@ module com.example.srchallenge {
 
     opens com.example.srchallenge to javafx.fxml;
     exports com.example.srchallenge;
+    exports com.example.srchallenge.controller;
+    opens com.example.srchallenge.controller to javafx.fxml;
 }

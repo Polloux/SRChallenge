@@ -1,4 +1,4 @@
-package com.example.srchallenge;
+package com.example.srchallenge.controller;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
