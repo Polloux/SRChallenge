@@ -6,9 +6,12 @@ module com.example.srchallenge {
     requires com.dlsc.formsfx;
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
+    requires com.google.gson;
 
-    opens com.example.srchallenge to javafx.fxml;
+    opens com.example.srchallenge.api;
+    opens com.example.srchallenge.model;
     exports com.example.srchallenge;
     exports com.example.srchallenge.controller;
     opens com.example.srchallenge.controller to javafx.fxml;
+    opens com.example.srchallenge;
 }

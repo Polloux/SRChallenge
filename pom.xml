@@ -63,6 +63,11 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -85,7 +90,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>com.example.srchallenge/com.example.srchallenge.HelloApplication</mainClass>
+                            <mainClass>com.example.srchallenge/com.example.srchallenge.WeatherApplication</mainClass>
                         </configuration>
                     </execution>
                 </executions>
