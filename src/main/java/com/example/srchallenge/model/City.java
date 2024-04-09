@@ -4,8 +4,21 @@ public class City {
     public String name;
     public String country_code;
     public String country;
+    public double longitude;
+    public double latitude;
 
     public City(){}
+
+    //UNNECESSARY API JSON DATA
+    public int id;
+    public double elevation;
+    public String feature_code;
+    public int admin1_id;
+    public String timezone;
+    public int population;
+    public int country_id;
+
+    public String admin1;
 
     //GETTERS
     public String getName() {
@@ -16,6 +29,12 @@ public class City {
     }
     public String getCountry() {
         return country;
+    }
+    public double getLongitude() {
+        return longitude;
+    }
+    public double getLatitude() {
+        return latitude;
     }
 
     //SETTERS
@@ -28,18 +47,12 @@ public class City {
     public void setCountry(String country) {
         this.country = country;
     }
-
-    //UNNECESSARY API JSON DATA
-    public int id;
-    public double longitude;
-    public double latitude;
-    public double elevation;
-    public String feature_code;
-    public int admin1_id;
-    public String timezone;
-    public int population;
-    public int country_id;
-    public String admin1;
+    public void setLongitude(double longitude) {
+        this.longitude = longitude;
+    }
+    public void setLatitude(double latitude) {
+        this.latitude = latitude;
+    }
 
     @Override
     public String toString() {
@@ -47,6 +60,8 @@ public class City {
                 "name='" + name + '\'' +
                 ", country_code='" + country_code + '\'' +
                 ", country='" + country + '\'' +
+                ", longitude=" + longitude +
+                ", latitude=" + latitude +
                 '}';
     }
 }
