@@ -17,7 +17,6 @@ public class City {
     public String timezone;
     public int population;
     public int country_id;
-
     public String admin1;
 
     //GETTERS

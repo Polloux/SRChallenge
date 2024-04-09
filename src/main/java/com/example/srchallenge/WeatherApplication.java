@@ -1,5 +1,6 @@
 package com.example.srchallenge;
 
+import com.example.srchallenge.api.Forecast;
 import com.example.srchallenge.api.Geocoding;
 import com.example.srchallenge.model.City;
 import javafx.application.Application;
@@ -23,6 +24,8 @@ public class WeatherApplication extends Application {
         for (City city : cities) {
             System.out.println(city.toString());
         }
+
+        Forecast.getForecast();
     }
 
     public static void main(String[] args) {
