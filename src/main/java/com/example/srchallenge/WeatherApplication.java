@@ -15,17 +15,17 @@ public class WeatherApplication extends Application {
         String userDataPath = "src/main/resources/com/example/srchallenge/userData.properties";
         PropertiesManager propertiesManager = new PropertiesManager(userDataPath);
 
-        FXMLLoader fxmlLoader = new FXMLLoader(WeatherApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+        FXMLLoader fxmlLoader = new FXMLLoader(WeatherApplication.class.getResource("weather-view.fxml"));
+        Scene scene = new Scene(fxmlLoader.load(), 1100, 600);
+
+        stage.setTitle("Weather app!");
+
         stage.setScene(scene);
         stage.show();
-        ArrayList<City> cities =  Geocoding.search("Maribor");
+        ArrayList<City> cities = Geocoding.search("Maribor");
         for (City city : cities) {
             System.out.println(city.toString());
         }
-
-        Forecast.getForecast();
     }
 
     public static void main(String[] args) {

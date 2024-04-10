@@ -7,6 +7,7 @@ module com.example.srchallenge {
     requires org.kordamp.ikonli.javafx;
     requires org.kordamp.bootstrapfx.core;
     requires com.google.gson;
+    requires org.apache.commons.text;
 
     opens com.example.srchallenge.api;
     opens com.example.srchallenge.model;

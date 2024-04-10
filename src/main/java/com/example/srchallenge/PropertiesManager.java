@@ -21,6 +21,13 @@ public class PropertiesManager {
         }
     }
 
+    public Object get(String key) {
+        if (Files.exists(Paths.get(propertiesPath))) {
+            return props.get(key);
+        }
+        return null;
+    }
+
     public void replace(String key, String value) {
         props.put(key, value);
         try (FileOutputStream outputStream = new FileOutputStream(propertiesPath)) {
@@ -29,5 +36,4 @@ public class PropertiesManager {
             System.err.println("Error occurred while writing to properties file: " + e.getMessage());
         }
     }
-
 }

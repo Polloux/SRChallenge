@@ -1,0 +1,55 @@
+.search-field {
+    -fx-background-color: #6C6885;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: #B3B2BF;
+    -fx-font-size: 14px;
+    -fx-padding: 5px 10px;
+    -fx-border-radius: 5px;
+    -fx-border-color: transparent;
+    -fx-pref-width: 200px;
+}
+
+.search-button {
+    -fx-background-color: #9792E3;
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8px 16px;
+    -fx-border-radius: 5px;
+    -fx-pref-width: 100px;
+}
+
+.search-button:hover {
+    -fx-background-color: #CCC8FF;
+}
+
+.custom-list-view {
+    -fx-background-color: #48435C;
+}
+
+.custom-list-view .list-cell {
+    -fx-text-fill: #6C6885;
+    -fx-padding: 5px;
+}
+
+.custom-list-view .list-cell:hover {
+    -fx-background-color: #5A5766;
+    -fx-text-fill: white;
+}
+
+/*Custom scrollbar*/
+.custom-list-view .scroll-bar:vertical {
+    -fx-background-color: transparent;
+    -fx-padding: 5px;
+}
+
+.custom-list-view .scroll-bar:vertical .thumb {
+    -fx-background-color: #9792E3;
+    -fx-background-insets: 2, 1, 1;
+    -fx-background-radius: 5px;
+}
+
+.custom-list-view .scroll-bar:vertical .increment-button,
+.custom-list-view .scroll-bar:vertical .decrement-button {
+    -fx-background-color: transparent;
+}
+

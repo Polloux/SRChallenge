@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class Forecast {
-    public static Weather getForecast() throws Exception {
+    public static Weather getForecast(double latitudeParam, double longitudeParam) throws Exception {
         //https://api.open-meteo.com/v1/forecast?latitude=46.5547&longitude=15.6467&current=temperature_2m,apparent_temperature&hourly=temperature_2m,relative_humidity_2m,temperature_180m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin&past_days=7&past_hours=24&forecast_hours=24
-        String apiUrl = "https://api.open-meteo.com/v1/forecast?latitude=46.5547&longitude=15.6467&current=temperature_2m,apparent_temperature&hourly=temperature_2m,relative_humidity_2m,temperature_180m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin&past_days=7&past_hours=24&forecast_hours=24";
+        String apiUrl = "https://api.open-meteo.com/v1/forecast?latitude="+ latitudeParam +"&longitude=" + longitudeParam + "&current=temperature_2m,apparent_temperature&hourly=temperature_2m,relative_humidity_2m,temperature_180m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin&past_days=7&past_hours=24&forecast_hours=24";
         URL url = new URL(apiUrl);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
