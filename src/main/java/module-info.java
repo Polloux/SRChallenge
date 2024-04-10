@@ -14,4 +14,5 @@ module com.example.srchallenge {
     exports com.example.srchallenge.controller;
     opens com.example.srchallenge.controller to javafx.fxml;
     opens com.example.srchallenge;
+    opens com.example.srchallenge.model.alternative;
 }

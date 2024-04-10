@@ -1,4 +1,4 @@
-package com.example.srchallenge.model;
+package com.example.srchallenge.model.alternative;
 
 class HourlyUnits {
     private String time;
