@@ -5,7 +5,6 @@ import com.example.srchallenge.model.Hourly;
 import com.example.srchallenge.model.Weather;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
 import java.io.BufferedReader;
@@ -48,7 +47,6 @@ public class Forecast {
             //START HOURLY
             JsonObject hourlyData = jsonObject.getAsJsonObject("hourly");
             JsonArray timeArray = hourlyData.getAsJsonArray("time");
-            JsonArray temperature2mArray = hourlyData.getAsJsonArray("temperature_2m");
             JsonArray relativeHumidity2mArray = hourlyData.getAsJsonArray("relative_humidity_2m");
             JsonArray temperature180mArray = hourlyData.getAsJsonArray("temperature_180m");
             JsonArray uvIndexArray = hourlyData.getAsJsonArray("uv_index");
@@ -58,7 +56,6 @@ public class Forecast {
             for (int i = 0; i < timeArray.size(); i++) {
                 Hourly hourly = new Hourly();
                 hourly.setTime(timeArray.get(i).getAsString());
-                hourly.setTemperature_2m(temperature2mArray.get(i).getAsFloat());
                 hourly.setRelative_humidity_2m(relativeHumidity2mArray.get(i).getAsInt());
                 hourly.setTemperature_180m(temperature180mArray.get(i).getAsFloat());
                 hourly.setUv_index(uvIndexArray.get(i).getAsFloat());
@@ -109,7 +106,7 @@ public class Forecast {
             weather.setApparentTemperature(apparentTemperature);
             //END WEATHER
 
-            System.out.println(weather);
+            //System.out.println(weather);
 
         } else {
             System.out.println("HTTP request failed with response code: " + responseCode);

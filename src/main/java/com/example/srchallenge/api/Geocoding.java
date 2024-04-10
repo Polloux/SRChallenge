@@ -1,6 +1,5 @@
 package com.example.srchallenge.api;
 
-import com.example.srchallenge.PropertiesManager;
 import com.example.srchallenge.model.City;
 import com.google.gson.Gson;
 import java.io.BufferedReader;
@@ -42,10 +41,6 @@ public class Geocoding {
                 JsonObject resultObject = resultsArray.get(i).getAsJsonObject();
                 City city = gson.fromJson(resultObject, City.class);
                 cities.add(city);
-                /*System.out.println("Name: " + city.getName());
-                System.out.println("Country code: " + city.getCountry_code());
-                System.out.println("Country: " + city.getCountry());
-                System.out.println();*/
             }
         } else {
             System.out.println("HTTP request failed with response code: " + responseCode);

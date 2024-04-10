@@ -2,7 +2,6 @@ package com.example.srchallenge.model;
 
 public class Hourly {
     private String time;
-    private float temperature_2m;
     private int relative_humidity_2m;
     private float temperature_180m;
     private float uv_index;
@@ -11,7 +10,6 @@ public class Hourly {
     public String toString() {
         return "Hourly{" +
                 "time='" + time + '\'' +
-                ", temperature_2m=" + temperature_2m +
                 ", relative_humidity_2m=" + relative_humidity_2m +
                 ", temperature_180m=" + temperature_180m +
                 ", uv_index=" + uv_index +
@@ -20,9 +18,8 @@ public class Hourly {
 
     public Hourly() {}
 
-    public Hourly(String time, float temperature_2m, int relative_humidity_2m, float temperature_180m, float uv_index) {
+    public Hourly(String time, int relative_humidity_2m, float temperature_180m, float uv_index) {
         this.time = time;
-        this.temperature_2m = temperature_2m;
         this.relative_humidity_2m = relative_humidity_2m;
         this.temperature_180m = temperature_180m;
         this.uv_index = uv_index;
@@ -34,14 +31,6 @@ public class Hourly {
 
     public void setTime(String time) {
         this.time = time;
-    }
-
-    public double getTemperature_2m() {
-        return temperature_2m;
-    }
-
-    public void setTemperature_2m(float temperature_2m) {
-        this.temperature_2m = temperature_2m;
     }
 
     public int getRelative_humidity_2m() {

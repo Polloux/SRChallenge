@@ -14,11 +14,10 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Popup;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class WeatherController {
@@ -29,9 +28,6 @@ public class WeatherController {
     private ToggleButton expandButton;
 
     @FXML
-    ImageView myImage;
-
-    @FXML
     private TextField searchText;
 
     @FXML
@@ -39,6 +35,18 @@ public class WeatherController {
 
     @FXML
     private Label cityLabel;
+
+    @FXML
+    private Label currentTemp;
+
+    @FXML
+    private Label apparentTemp;
+
+    @FXML
+    private Label currentTime;
+
+    @FXML
+    private Label currentDate;
 
     @FXML
     private ListView<City> cityListView;
@@ -53,11 +61,13 @@ public class WeatherController {
 
     private final ObservableList<City> cities = FXCollections.observableArrayList();
 
+    boolean expanded = false;
+
     @FXML
     private void onEditingButtonClick() {
         boolean isSelected = editingButton.isSelected();
         editingButton.setText("✔");
-        editingButton.setStyle("-fx-background-color: #C7EA46;");
+        editingButton.setStyle("-fx-background-color: #A0D4A0;");
         cityInputField.setVisible(isSelected);
         searchButton.setVisible(isSelected);
         if (!isSelected) {
@@ -66,13 +76,18 @@ public class WeatherController {
     }
 
     @FXML
+    public void onExpandButtonClick() throws Exception {
+        if (expanded) {
+            expandButton.setText("Open details");
+        } else {
+            expandButton.setText("Open overview");
+        }
+        initialize();
+        expanded = !expanded;
+    }
+
+    @FXML
     protected void initialize() throws Exception {
-        valuePopup.setAutoHide(false);
-        valuePopup.setHideOnEscape(true);
-
-        Image image = new Image("file:icon.png"); // Assuming weather.png is in the project directory
-        myImage = new ImageView(image);
-
         String userDataPath = "src/main/resources/com/example/srchallenge/userData.properties";
         PropertiesManager propertiesManager = new PropertiesManager(userDataPath);
         String cityName = propertiesManager.get("City").toString();
@@ -80,19 +95,14 @@ public class WeatherController {
         City city = Geocoding.search(cityName).get(0);
         updateWeather(city);
 
-
         hideSearch();
 
         cityListView.setItems(cities);
         //TODO SET HEIGHT ACCORDING TO NUMBER OF ITEMS, MAX HEIGHT 5 ELEMENTS
         cityListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
-                System.out.println("ob" + observable);
-                System.out.println("ov" + oldValue);
-                System.out.println("nv" + newValue);
                 hideSearch();
                 propertiesManager.replace("City", newValue.name);
-                // Update weather chart based on the selected city
                 try {
                     updateWeather(newValue);
                 } catch (Exception e) {
@@ -107,35 +117,70 @@ public class WeatherController {
         cityLabel.setText(city.name);
 
         Weather weather = Forecast.getForecast(city.latitude,city.longitude);
+        setTopOfApp(weather);
 
-        // Clear existing data from the LineChart
         lineChart.getData().clear();
+        if (expanded) {
+            XYChart.Series<String, Number> temperatureMax = new XYChart.Series<>();
+            temperatureMax.setName("Max Temperature");
+            XYChart.Series<String, Number> temperatureMin = new XYChart.Series<>();
+            temperatureMin.setName("Min Temperature");
+            XYChart.Series<String, Number> uv_index_max = new XYChart.Series<>();
+            temperatureMin.setName("UV Index");
 
-        XYChart.Series<String, Number> temperatureMax = new XYChart.Series<>();
-        temperatureMax.setName("Max Temperature");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMM");
+            for (Daily daily : weather.getDaily()) {
+                LocalDate date = LocalDate.parse(daily.getTime());
+                String formattedDate = date.format(formatter);
 
-        XYChart.Series<String, Number> temperatureMin = new XYChart.Series<>();
-        temperatureMin.setName("Min Temperature");
+                temperatureMax.getData().add(new XYChart.Data<>(formattedDate, daily.getTemperature_2m_max()));
+                temperatureMin.getData().add(new XYChart.Data<>(formattedDate, daily.getTemperature_2m_min()));
+                uv_index_max.getData().add(new XYChart.Data<>(formattedDate, daily.getUv_index_max()));
+            }
 
-        XYChart.Series<String, Number> uv_index_max = new XYChart.Series<>();
-        temperatureMin.setName("UV Index");
+            lineChart.getData().clear();
+            lineChart.getData().add(temperatureMax);
+            lineChart.getData().add(uv_index_max);
+            lineChart.getData().add(temperatureMin);
+        } else {
+            XYChart.Series<String, Number> temperature_180m = new XYChart.Series<>();
+            temperature_180m.setName("Temperature");
+            XYChart.Series<String, Number> relative_humidity_2m = new XYChart.Series<>();
+            relative_humidity_2m.setName("Relative Humidity");
+            XYChart.Series<String, Number> uv_index = new XYChart.Series<>();
+            uv_index.setName("UV Index");
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. MMM");
-        for (Daily daily : weather.getDaily()) {
-            LocalDate date = LocalDate.parse(daily.getTime());
-            String formattedDate = date.format(formatter);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d. HH:mm");
+            for (Daily daily : weather.getDaily()) {
+                for (Hourly hourly : daily.getHourly()) {
+                    LocalDateTime dateTime = LocalDateTime.parse(hourly.getTime());
+                    String formattedDateTime = dateTime.format(formatter);
+                    temperature_180m.getData().add(new XYChart.Data<>(formattedDateTime, hourly.getTemperature_180m()));
+                    relative_humidity_2m.getData().add(new XYChart.Data<>(formattedDateTime, hourly.getRelative_humidity_2m()));
+                    uv_index.getData().add(new XYChart.Data<>(formattedDateTime, hourly.getUv_index()));
+                }
+            }
 
-            // Assuming you want to add maximum temperature for each day
-            temperatureMax.getData().add(new XYChart.Data<>(formattedDate, daily.getTemperature_2m_max()));
-            temperatureMin.getData().add(new XYChart.Data<>(formattedDate, daily.getTemperature_2m_min()));
-            uv_index_max.getData().add(new XYChart.Data<>(formattedDate, daily.getUv_index_max()));
-
+            lineChart.getData().clear();
+            lineChart.getData().add(temperature_180m);
+            lineChart.getData().add(relative_humidity_2m);
+            lineChart.getData().add(uv_index);
         }
 
-        lineChart.getData().clear();
-        lineChart.getData().add(temperatureMax);
-        lineChart.getData().add(uv_index_max);
-        lineChart.getData().add(temperatureMin);
+    }
+
+    @FXML
+    private void setTopOfApp(Weather weather) {
+        currentTemp.setText(weather.getTemperature() + "°C");
+        apparentTemp.setText(weather.getApparentTemperature() + "°C");
+
+        DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("HH");
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("d. MMMM yyyy");
+        LocalDateTime dateTime = LocalDateTime.parse(weather.getCurrentTime());
+        String formattedTime = dateTime.format(formatter1);
+        String formattedDate = dateTime.format(formatter2);
+        currentTime.setText(formattedTime + " o'clock");
+        currentDate.setText(formattedDate);
     }
 
     @FXML
@@ -143,8 +188,7 @@ public class WeatherController {
         String cityName = cityInputField.getText().trim();
         if (!cityName.isEmpty()) {
             try {
-                // Perform city search using Geocoding API
-                cities.clear(); // Clear previous search results
+                cities.clear();
                 cities.addAll(Geocoding.search(cityName));
                 cityListView.setVisible(true);
                 cityListView.setMaxHeight(220);
@@ -164,5 +208,6 @@ public class WeatherController {
         editingButton.setText("\uD83D\uDD0D");
         editingButton.setStyle("-fx-background-color: #9792E3;");
         lineChart.requestLayout();
+        cityInputField.clear();
     }
 }

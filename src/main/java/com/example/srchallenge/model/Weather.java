@@ -70,5 +70,4 @@ public class Weather {
     public void setApparentTemperature(float apparentTemperature) {
         this.apparentTemperature = apparentTemperature;
     }
-
 }
