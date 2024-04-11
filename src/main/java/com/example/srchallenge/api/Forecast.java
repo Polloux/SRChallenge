@@ -10,7 +10,8 @@ import com.google.gson.JsonObject;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
+import java.net.URI;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -19,14 +20,20 @@ public class Forecast {
     public static Weather getForecast(double latitudeParam, double longitudeParam) throws Exception {
         //https://api.open-meteo.com/v1/forecast?latitude=46.5547&longitude=15.6467&current=temperature_2m,apparent_temperature&hourly=temperature_2m,relative_humidity_2m,temperature_180m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin&past_days=7&past_hours=24&forecast_hours=24
         String apiUrl = "https://api.open-meteo.com/v1/forecast?latitude="+ latitudeParam +"&longitude=" + longitudeParam + "&current=temperature_2m,apparent_temperature&hourly=temperature_2m,relative_humidity_2m,temperature_180m,uv_index&daily=temperature_2m_max,temperature_2m_min,uv_index_max&timezone=Europe%2FBerlin&past_days=7&past_hours=24&forecast_hours=24";
-        URL url = new URL(apiUrl);
+        /*URL url = new URL(apiUrl);
 
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setRequestMethod("GET");
+        connection.setRequestMethod("GET");*/
+
+        URI uri = URI.create(apiUrl);
+        URLConnection connection = uri.toURL().openConnection();
+        HttpURLConnection httpConnection = (HttpURLConnection) connection;
+        httpConnection.setRequestMethod("GET");
+
 
         Weather weather = new Weather();
 
-        int responseCode = connection.getResponseCode();
+        int responseCode = ((HttpURLConnection) connection).getResponseCode();
         if (responseCode == HttpURLConnection.HTTP_OK) {
             BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String line;
@@ -111,7 +118,7 @@ public class Forecast {
         } else {
             System.out.println("HTTP request failed with response code: " + responseCode);
         }
-        connection.disconnect();
+        ((HttpURLConnection) connection).disconnect();
         return weather;
     }
 }

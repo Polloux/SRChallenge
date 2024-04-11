@@ -1,5 +1,6 @@
 package com.example.srchallenge;
 
+import com.example.srchallenge.api.Forecast;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

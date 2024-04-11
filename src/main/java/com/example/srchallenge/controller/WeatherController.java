@@ -61,7 +61,7 @@ public class WeatherController {
 
     private final ObservableList<City> cities = FXCollections.observableArrayList();
 
-    boolean expanded = false;
+    boolean expanded = true;
 
     @FXML
     private void onEditingButtonClick() {
@@ -82,8 +82,8 @@ public class WeatherController {
         } else {
             expandButton.setText("Open overview");
         }
-        initialize();
         expanded = !expanded;
+        initialize();
     }
 
     @FXML
@@ -120,7 +120,7 @@ public class WeatherController {
         setTopOfApp(weather);
 
         lineChart.getData().clear();
-        if (expanded) {
+        if (!expanded) {
             XYChart.Series<String, Number> temperatureMax = new XYChart.Series<>();
             temperatureMax.setName("Max Temperature");
             XYChart.Series<String, Number> temperatureMin = new XYChart.Series<>();
